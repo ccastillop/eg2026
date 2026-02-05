@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_223013) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_04_164415) do
   create_table "candidates", force: :cascade do |t|
     t.string "birth_date"
     t.datetime "created_at", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_223013) do
     t.string "district"
     t.string "document_number", null: false
     t.string "document_type"
+    t.integer "electoral_district_id"
     t.string "electoral_file_code"
     t.string "first_name"
     t.string "gender"
@@ -34,9 +35,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_223013) do
     t.datetime "updated_at", null: false
     t.index ["department"], name: "index_candidates_on_department"
     t.index ["document_number"], name: "index_candidates_on_document_number"
+    t.index ["electoral_district_id"], name: "index_candidates_on_electoral_district_id"
     t.index ["political_organization_id"], name: "index_candidates_on_political_organization_id"
     t.index ["position_type"], name: "index_candidates_on_position_type"
     t.index ["status"], name: "index_candidates_on_status"
+  end
+
+  create_table "electoral_districts", force: :cascade do |t|
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.string "district_type", null: false
+    t.string "name", null: false
+    t.integer "seats_count"
+    t.string "ubigeo"
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_electoral_districts_on_code", unique: true
+    t.index ["district_type"], name: "index_electoral_districts_on_district_type"
+    t.index ["name"], name: "index_electoral_districts_on_name"
   end
 
   create_table "political_organizations", force: :cascade do |t|
@@ -57,5 +72,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_223013) do
     t.index ["status"], name: "index_political_organizations_on_status"
   end
 
+  add_foreign_key "candidates", "electoral_districts"
   add_foreign_key "candidates", "political_organizations"
 end

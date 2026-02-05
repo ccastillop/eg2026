@@ -7,7 +7,10 @@ puts "SEEDING DATABASE - Elecciones Generales 2026"
 puts "="*60
 puts "\n"
 
-# Load political organizations first (since candidates depend on them)
+# Load electoral districts first (catalog data)
+load Rails.root.join('db', 'seeds', 'electoral_districts.rb')
+
+# Load political organizations (since candidates depend on them)
 load Rails.root.join('db', 'seeds', 'political_organizations.rb')
 
 # Load candidates

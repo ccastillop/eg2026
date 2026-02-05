@@ -1,5 +1,6 @@
 class Candidate < ApplicationRecord
   belongs_to :political_organization
+  belongs_to :electoral_district, optional: true
 
   validates :document_number, presence: true
   validates :position_type, presence: true
@@ -10,6 +11,7 @@ class Candidate < ApplicationRecord
   scope :deputies, -> { where(position_type: "DIPUTADO") }
   scope :senators, -> { where(position_type: "SENADOR") }
   scope :by_department, ->(dept) { where(department: dept) }
+  scope :by_electoral_district, ->(district_id) { where(electoral_district_id: district_id) }
   scope :by_status, ->(status) { where(status: status) }
   scope :active, -> { where(status: ["INSCRITO", "ADMITIDO"]) }
 
