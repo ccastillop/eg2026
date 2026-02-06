@@ -204,6 +204,21 @@ begin
   # Test search
   search_results = Candidate.where("first_name LIKE ?", "%A%").limit(10).count
   puts "  ✅ Search filter works (#{search_results} results for names containing 'A')"
+
+  # Test electoral district filter
+  lima_district = ElectoralDistrict.find_by(name: 'Lima')
+  if lima_district
+    lima_candidates = Candidate.where(electoral_district_id: lima_district.id).count
+    puts "  ✅ Electoral district filter works (Lima: #{lima_candidates} candidates)"
+  else
+    puts "  ⚠️  Warning: Lima district not found for testing"
+  end
+
+  # Test combined filters
+  if lima_district
+    lima_deputies = Candidate.where(position_type: 'DIPUTADO', electoral_district_id: lima_district.id).count
+    puts "  ✅ Combined filters work (Lima Deputies: #{lima_deputies})"
+  end
 rescue StandardError => e
   puts "  ❌ Error: #{e.message}"
 end

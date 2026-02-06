@@ -12,7 +12,7 @@
   <!-- Search and Filters -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <%= form_with url: candidates_path, method: :get, class: "bg-white p-6 rounded-lg shadow-sm border border-gray-200" do |f| %>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Search -->
         <div>
           <%= f.label :search, "Buscar", class: "block text-sm font-medium text-gray-700 mb-2" %>
@@ -47,13 +47,22 @@
               class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
         </div>
 
+        <!-- Electoral District -->
+        <div>
+          <%= f.label :electoral_district_id, "Distrito Electoral", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.select :electoral_district_id,
+              options_for_select([["Todos", ""]] + ElectoralDistrict.order(:name).pluck(:name, :id), params[:electoral_district_id]),
+              {},
+              class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+
         <!-- Submit Button -->
         <div class="flex items-end">
           <%= f.submit "Buscar", class: "w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
         </div>
       </div>
 
-      <% if params[:search].present? || params[:position_type].present? || params[:political_organization_id].present? %>
+      <% if params[:search].present? || params[:position_type].present? || params[:political_organization_id].present? || params[:electoral_district_id].present? %>
         <div class="mt-4">
           <%= link_to "Limpiar filtros", candidates_path, class: "text-sm text-blue-600 hover:text-blue-800" %>
         </div>
