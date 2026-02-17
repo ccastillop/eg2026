@@ -1,7 +1,8 @@
 class CandidatesController < ApplicationController
   def index
-    @candidates = Candidate.includes(:political_organization, :electoral_district)
-                           .order(:paternal_surname, :maternal_surname, :first_name)
+    @candidates = Candidate.active
+                           .includes(:political_organization, :electoral_district)
+                           .order(:position_type, :position_number, :paternal_surname, :maternal_surname, :first_name)
                            .page(params[:page])
                            .per(30)
 
