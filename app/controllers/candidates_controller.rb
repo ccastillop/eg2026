@@ -16,7 +16,12 @@ class CandidatesController < ApplicationController
     end
 
     if params[:electoral_district_id].present?
-      @candidates = @candidates.where(electoral_district_id: params[:electoral_district_id])
+      if params[:electoral_district_id] == "nacional"
+        # Filter senators without electoral district (national level)
+        @candidates = @candidates.where(electoral_district_id: nil)
+      else
+        @candidates = @candidates.where(electoral_district_id: params[:electoral_district_id])
+      end
     end
 
     if params[:search].present?
