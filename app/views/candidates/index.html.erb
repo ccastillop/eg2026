@@ -105,7 +105,7 @@
 
                   <p class="text-sm text-gray-600">
                     <span class="font-medium">Partido:</span>
-                    <%= candidate.political_organization.acronym || candidate.political_organization.name %>
+                    <%= candidate.political_organization.acronym.presence || candidate.political_organization.name %>
                   </p>
 
                   <% if candidate.electoral_district.present? %>
